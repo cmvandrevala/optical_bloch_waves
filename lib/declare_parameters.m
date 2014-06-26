@@ -5,6 +5,6 @@ refractive_index_of_second_layer = 7+0.45*1i;
 number_of_layers = 10;
 
 incident_wavevector = 2*pi/(465e-9);
-polarization = "TM";
+polarization = 'TM';
 
 theta_step = 0.01;

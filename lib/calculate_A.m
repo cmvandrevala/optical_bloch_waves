@@ -9,9 +9,9 @@ function A = calculate_A(incident_angle)
 	k_one = incident_wavevector*refractive_index_of_first_layer*z_hat_one;
 	k_two = incident_wavevector*refractive_index_of_second_layer*z_hat_two;
 
-	if polarization == 'TE' || polarization == 'S'
+	if polarization == 'TE' | polarization == 'S'
 		fraction_sum = (k_two/k_one) + (k_one/k_two);
-	elseif polarization == 'TM' || polarization == 'P'
+	elseif polarization == 'TM' | polarization == 'P'
 		n_one_squared = calculate_n_squared(refractive_index_of_first_layer);
 		n_two_squared = calculate_n_squared(refractive_index_of_second_layer);
 		k_fraction = (n_one_squared*k_two)/(n_two_squared*k_one);
