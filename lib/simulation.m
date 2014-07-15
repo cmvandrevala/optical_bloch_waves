@@ -2,40 +2,33 @@ clear all
 clf
 
 declare_parameters
-N = calculate_number_of_data_points(theta_step);
 
-% Define Matrices and Vectors
-incident_angle_values = zeros(N);
-t_values = zeros(N);
-r_values = zeros(N);
-T_values = zeros(N);
-R_values = zeros(N);
+incident_angle_values = zeros(number_of_data_points(theta_step));
+t_values = zeros(number_of_data_points(theta_step));
+r_values = zeros(number_of_data_points(theta_step));
+T_values = zeros(number_of_data_points(theta_step));
+R_values = zeros(number_of_data_points(theta_step));
 
-% Run Simulation
-
-for count = 0:N-1
-
-	incident_angle = theta_step*count;
-	incident_angle_values(count+1) = incident_angle;
-
-	A = calculate_A(incident_angle);
-	B = calculate_B(incident_angle);
-	C = calculate_C(incident_angle);
-	D = calculate_D(incident_angle);
-
-	bloch_matrix = [A B; C D];
-	transfer_matrix = chebyshev_equality(bloch_matrix, number_of_layers);
-
-	r_values(count+1) = transfer_matrix(2,1)/transfer_matrix(1,1);
-	t_values(count+1) = 1/transfer_matrix(1,1);
-	R_values(count+1) = conj(r_values(count+1))*r_values(count+1);
-	T_values(count+1) = conj(t_values(count+1))*t_values(count+1);
+for count = 1:number_of_data_points(theta_step)
+    
+	A = calculate_A(theta_step*count);
+	B = calculate_B(theta_step*count);
+	C = calculate_C(theta_step*count);
+	D = calculate_D(theta_step*count);
+	transfer_matrix = chebyshev_equality([A B; C D]);
+    
+	incident_angle_values(count) = theta_step*count;
+    
+	r_values(count) = transfer_matrix(2,1)/transfer_matrix(1,1);
+	t_values(count) = 1/transfer_matrix(1,1);
+	R_values(count) = conj(r_values(count))*r_values(count);
+	T_values(count) = conj(t_values(count))*t_values(count);
 
 end
 
 [Y,Indx] = max(T_values);
 maximal_angle = incident_angle_values(Indx)*180/pi;
-maximal_angle = maximal_angle(1)
+disp(maximal_angle(1))
 
 subplot(3,2,1);
 plot(incident_angle_values, real(t_values))
